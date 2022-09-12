@@ -172,49 +172,54 @@
                 <!-- End of Topbar -->
 
                 <div class="container-fluid">
-                    @if(session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                       {{ session('success') }}
-                     </div>
-                    @endif
-                    <h1 class="h3 mb-2 text-gray-800">Product Categories</h1>
-                    <div class="card shadow">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"> Categories List</h6>
-                                <a href="/categories/form" class="btn btn-success">Tambah Categories</a>
-                        </div>
+                    <h1 class="h3 mb-2 text-gray-800">Vouchers</h1>
 
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>    
-                                    <tr>
-                                        <th width="100">Id</th>
-                                        <th>Categories</th>
-                                        <th>Description</th>
-                                        <th>#</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    @if (count($categories) > 0)
-                                    @foreach ($categories as $categori)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $categori->category }}</td>
-                                        <td>{{ $categori->description }}</td>
-                                        <td width="100">
-                                            <a href="/categories/form?id={{ $categori->id }}" class="btn  btn-warning btn-sm btn-icon"><i class="fas fa-school"></i></a>
-                                            <a href="/categories/delete?id={{ $categori->id }}" onclick="return confirm('Are you sure want to delete this category?')" class="btn btn-danger btn-sm btn-icon"><i class="fas fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @else
-                                    <tr>
-                                        <td colspan="3" class="text-center">No data Found</td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card shadow">
+                      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Vouchers List</h6>
+                        <a href="/voucher/form" class="btn btn-primary btn-sm">Tambah Voucher</a>
+                      </div>
+                      <div class="card-body">
+                        <table class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr class="text-center">
+                              <th width="100">#</th>
+                              <th>Code</th>
+                              <th>Type</th>
+                              <th>Discount</th>
+                              <th>Period</th>
+                              <th>Status</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @if (count($voucher) > 0)
+                              @foreach ($voucher as $vouchers)
+                                <tr>
+                                  <td>{{ $loop->iteration }}</td>
+                                  <td>{{ $vouchers->code }}</td>
+                                  <td>{{ ($vouchers->type == '1') ? 'Flat' : 'Percentage' }}</td>
+                                  <td>{{ number_format($vouchers->disc_value) }}</td>
+                                  <td>
+                                    {{ \Carbon\Carbon::parse($vouchers->start_date)->format('d M Y') }}
+                                    -
+                                    {{ \Carbon\Carbon::parse($vouchers->end_date)->format('d M Y') }}
+                                  </td>
+                                  <td>{!! ($vouchers->status) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-secondary">Claimed</span>' !!}</td>
+                                  <td>
+                                    <a href="/voucher/form?id={{ $vouchers->id }}" class="btn btn-warning btn-sm btn-icon"><i class="fas fa-school"></i></a>
+                                    <a href="/voucher/delete?id={{ $vouchers->id }}" onclick="return confirm('Are you sure want to delete this voucher ?')" class="btn btn-danger btn-sm btn-icon"><i class="fas fa-trash-alt"></i></a>
+                                  </td>
+                                </tr>
+                              @endforeach
+                            @else
+                              <tr>
+                                <td colspan="7" class="text-center">No data found</td>
+                              </tr>
+                            @endif
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                 </div>
             <!-- End of Main Content -->
@@ -233,6 +238,11 @@
         <!-- End of Content Wrapper -->
 
         </div>
+
+
+
+
+
 
 
     <!-- Bootstrap core JavaScript-->

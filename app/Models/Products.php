@@ -13,10 +13,10 @@ class Products extends Model
 
 
     public function productcategories(){
-        return $this->belongsTo(ProductCategories::class);
+        return $this->belongsTo(ProductCategories::class, 'product_categories_id', 'id');
     }
 
     public function transactiondetails(){
-        return $this->belongsTo(TransactionsDetails::class, 'products_id', 'id');
+        return $this->hasMany(TransactionsDetails::class, 'transactions_id', 'id');
     }
 }

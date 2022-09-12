@@ -12,10 +12,10 @@ class TransactionsDetails extends Model
     use HasFactory;
 
     public function transactions(){
-        return $this->belongsTo(Transactions::class);
+        return $this->belongsTo(Transactions::class, 'transactions_id', 'id');
     }
 
     public function products(){
-        return $this->hasMany(Products::class);
+        return $this->belongsTo(Products::class, 'products_id', 'id');
     }
 }

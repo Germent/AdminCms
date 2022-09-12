@@ -170,53 +170,51 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
                 <div class="container-fluid">
-                    @if(session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                       {{ session('success') }}
-                     </div>
-                    @endif
-                    <h1 class="h3 mb-2 text-gray-800">Product Categories</h1>
-                    <div class="card shadow">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"> Categories List</h6>
-                                <a href="/categories/form" class="btn btn-success">Tambah Categories</a>
-                        </div>
+                    <h1 class="h3 mb-2 text-gray-800">Vouchers</h1>
 
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>    
-                                    <tr>
-                                        <th width="100">Id</th>
-                                        <th>Categories</th>
-                                        <th>Description</th>
-                                        <th>#</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    @if (count($categories) > 0)
-                                    @foreach ($categories as $categori)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $categori->category }}</td>
-                                        <td>{{ $categori->description }}</td>
-                                        <td width="100">
-                                            <a href="/categories/form?id={{ $categori->id }}" class="btn  btn-warning btn-sm btn-icon"><i class="fas fa-school"></i></a>
-                                            <a href="/categories/delete?id={{ $categori->id }}" onclick="return confirm('Are you sure want to delete this category?')" class="btn btn-danger btn-sm btn-icon"><i class="fas fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @else
-                                    <tr>
-                                        <td colspan="3" class="text-center">No data Found</td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                        <a href="/voucher" class="btn btn-secondary btn-sm"><i class="fas fa-chevron-left"></i></a>
+                        {{ isset($voucher) ? 'Edit' : 'Add' }} Voucher
+                        </h6>
                     </div>
-                </div>
+                    <div class="card-body">
+                        <form action="" method="post" class="row">
+                        <div class="form-group col-md-12">
+                            <label>Code <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" required name="code" autocomplete="off" value="{{ isset($voucher) ? $voucher->code : '' }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Type <span class="text-danger">*</span></label>
+                            <select name="type" class="form-control">
+                            <option value="0">--- Select Type ---</option>
+                            <option value="1" {{ (isset($voucher) && $voucher->type == '1') ? 'selected' : '' }}>Flat Discount</option>
+                            <option value="2" {{ (isset($voucher) && $voucher->type == '2') ? 'selected' : '' }}>Percent Discount</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Discount Value <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" required name="disc_value" autocomplete="off" value="{{ isset($voucher) ? $voucher->disc_value : '' }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Start Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" required name="start_date" value="{{ isset($voucher) ? $voucher->start_date : '' }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>End Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" required name="end_date" value="{{ isset($voucher) ? $voucher->end_date : '' }}">
+                        </div>
+                        <div class="col-12 text-right">
+                            <button class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Save</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                <!-- Begin Page Content -->
+
+            </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -235,7 +233,12 @@
         </div>
 
 
-    <!-- Bootstrap core JavaScript-->
+
+
+
+
+
+            <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 

@@ -19,6 +19,8 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/daterangepicker.css') }}" rel="stylesheet">
 
 </head>
 
@@ -170,51 +172,68 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
                 <div class="container-fluid">
-                    @if(session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                       {{ session('success') }}
-                     </div>
-                    @endif
-                    <h1 class="h3 mb-2 text-gray-800">Product Categories</h1>
-                    <div class="card shadow">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"> Categories List</h6>
-                                <a href="/categories/form" class="btn btn-success">Tambah Categories</a>
-                        </div>
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr class="text-center">
+                            <th width="100">#</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                </td>
+                                <td></td>
+                                <td class="text-center" width="100">
+                                    <div class="dropdown">
+                                    </div>
+                                    </div>
+                                </td>
+                                </tr>
+                        </tbody>
+                        </table>
 
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>    
-                                    <tr>
-                                        <th width="100">Id</th>
-                                        <th>Categories</th>
-                                        <th>Description</th>
-                                        <th>#</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    @if (count($categories) > 0)
-                                    @foreach ($categories as $categori)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $categori->category }}</td>
-                                        <td>{{ $categori->description }}</td>
-                                        <td width="100">
-                                            <a href="/categories/form?id={{ $categori->id }}" class="btn  btn-warning btn-sm btn-icon"><i class="fas fa-school"></i></a>
-                                            <a href="/categories/delete?id={{ $categori->id }}" onclick="return confirm('Are you sure want to delete this category?')" class="btn btn-danger btn-sm btn-icon"><i class="fas fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @else
-                                    <tr>
-                                        <td colspan="3" class="text-center">No data Found</td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                            </table>
+                    <h1 class="h3 mb-2 text-gray-800">Transaction</h1>
+    
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                            <a href="/categories" class="btn btn-secondary btn-sm"><i class="fas fa-chevron-left"></i></a>
+                            </h6>
                         </div>
+                        <div class="card-body">
+                            <form action="" method="post">
+                            <div class="form-group">
+                                <label>Product <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" required name="category" autocomplete="off" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <textarea name="description" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Qty</label>
+                                <textarea name="description" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Sub Total</label>
+                                <textarea name="description" class="form-control"></textarea>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary btn-sm"><i class="fas fa-save"></i> Save</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                  
                     </div>
                 </div>
             <!-- End of Main Content -->
@@ -233,6 +252,11 @@
         <!-- End of Content Wrapper -->
 
         </div>
+
+
+
+
+
 
 
     <!-- Bootstrap core JavaScript-->

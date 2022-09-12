@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->foreignId('product_categories_id');
+            $table->foreignId('product_categories_id')->references('id')->on('product_categories');
             $table->decimal('price');
             $table->decimal('purchase_price');
             $table->string('short_description');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('new_product');
             $table->integer('best_seller');
             $table->integer('featured');
+            $table->timestamps();
         });
     }
 

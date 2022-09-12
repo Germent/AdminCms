@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('voucher_usages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transactions_id');
-            $table->foreignId('vouchers_id');
+            $table->foreignId('transactions_id')->references('id')->on('transactions');
+            $table->foreignId('vouchers_id')->references('id')->on('vouchers');
             $table->decimal('discounted_value');
             $table->timestamps();
         });

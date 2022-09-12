@@ -19,6 +19,8 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/daterangepicker.css') }}" rel="stylesheet">
 
 </head>
 
@@ -170,52 +172,39 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
                 <div class="container-fluid">
-                    @if(session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                       {{ session('success') }}
-                     </div>
-                    @endif
-                    <h1 class="h3 mb-2 text-gray-800">Product Categories</h1>
-                    <div class="card shadow">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"> Categories List</h6>
-                                <a href="/categories/form" class="btn btn-success">Tambah Categories</a>
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr class="text-center">
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                            <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listBody">
+                        </tbody>
+                        <tr>
+                            <th class="text-center" colspan="3">Total</th>
+                            <th id="add-product-total" class="text-center">0</th>
+                        </tr>
+                        </table>
+                        <form action="" method="post">
+                        <div class="d-flex align-content-center flex-wrap">
+                        @foreach ($products as $product)
+                        <div class="card text-center shadow row mt-5 ml-1 mr-5 " style="width: 18rem;">
+                            <div class="card-body categoryOf{{ $product->productcategories->id }}" data-product="{{ $product->id }}">
+                              <h5 class="card-title">{{ $product->name }}</h5>
+                              <p class="card-text">{{ $product->productcategories->category }}</p>
+                              <button class="btn btn-primary" type="button" onclick="addPesan('{{ $product->id }}')">Pesan</button>
+                            </div>
+                          </div>
+                          @endforeach
                         </div>
-
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>    
-                                    <tr>
-                                        <th width="100">Id</th>
-                                        <th>Categories</th>
-                                        <th>Description</th>
-                                        <th>#</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    @if (count($categories) > 0)
-                                    @foreach ($categories as $categori)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $categori->category }}</td>
-                                        <td>{{ $categori->description }}</td>
-                                        <td width="100">
-                                            <a href="/categories/form?id={{ $categori->id }}" class="btn  btn-warning btn-sm btn-icon"><i class="fas fa-school"></i></a>
-                                            <a href="/categories/delete?id={{ $categori->id }}" onclick="return confirm('Are you sure want to delete this category?')" class="btn btn-danger btn-sm btn-icon"><i class="fas fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @else
-                                    <tr>
-                                        <td colspan="3" class="text-center">No data Found</td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
+                        </form>
                     </div>
+
                 </div>
             <!-- End of Main Content -->
 
@@ -234,7 +223,6 @@
 
         </div>
 
-
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -251,9 +239,111 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+    
 
+    <script>
+        const addProductTotal = document.querySelector("#add-product-total")
+        const tableProductBody = document.querySelector("#listBody")
+
+        let products = [];
 
         
-    </body>
+        const getProducts = async () => {
+            const response = await fetch("/api/products/all");
+            const data = await response.json();
+            products = data;
+        };
+        
+        getProducts()
+        
+        const addPesan = (id) => {
 
+            let qty = 0;
+            let PriceTotal = 0;
+
+            let newProduct = products.find(
+                (item) => item.id == parseInt(id)
+            );
+            
+
+            tableProductBody.innerHTML += `
+            <tr>
+                <td>
+                    <input type="hidden" class="form-control text-center" id="product_id" name="product_id[]"  value="${newProduct.id}">  
+                    <input type="text" class="form-control text-center" id="product_name" name="product_name[]" value="${newProduct.name}" readonly>
+                </td>
+                <td>
+                    <input type="hidden" class="form-control text-center" id="price_satuan" name="price_satuan[]" value="${newProduct.price}" readonly>
+                    <input type="text" class="form-control" id="price_total" name="price_total[]" value="${
+                        newProduct.price
+                    }"></input>
+                </td>
+                <td>
+                    <input type="number" min="0" class="form-control" id="qty" name="qty[]" onchange="updatePrice(this)" value="${qty}}">
+                </td>
+                <td>
+                    <input type="hidden" class="form-control text-center" name="price_purchase_satuan" id="price_purchase_satuan" name="price_purchase_satuan[]" value="${newProduct.purchase_price}" readonly>
+                    <input type="text" class="form-control" id="price_purchase_total" name="price_purchase_total" name="price_purchase_total[]" value="${
+                        number_format(PriceTotal)
+                }" readonly>
+                </td>
+                <td>
+                <button type="button" class="btn btn-danger mb-3 " onclick="removeProduct(this)"><i class="fas fa-trash"></i> Remove</button>
+                </td>
+                
+                
+            <tr>
+            `
+
+            updateTotal();
+
+
+        };
+
+        const updatePrice = (e) => {
+                const qty =  parseInt(e.value);
+                const priceTotalTabel = e.parentElement.parentElement.children[3].children[1]
+
+                const priceSatuan = parseInt (
+                    e.parentElement.parentElement.children[1].children[0].value
+                );
+
+                priceTotalTabel.value = priceSatuan * qty
+
+                updateTotal();
+
+            }
+
+        removeProduct = async (e) => {
+            e.parentElement.parentElement.remove();
+
+            const id = e.parentElement.parentElement.children[0].children[0].value;
+
+            const response = await fetch(`/api/products/${id}`);
+            const data = await response.json();
+
+            products = [...products, data];
+
+            updateTotal()
+
+            };
+
+        const updateTotal = () => {
+            const totalInput = document.querySelector("#add-product-total")
+
+            let total = 0;
+
+            const isiTableChildren = [...tableProductBody.children]
+            console.log(isiTableChildren);
+                isiTableChildren.forEach((e) => {
+                    const priceTotal = e.children[3].children[1];
+                    total += parseInt(priceTotal.value)
+            });
+
+            totalInput.value = total;
+        }
+        updateTotal()
+
+    </script>
+    </body>
 </head>

@@ -29,7 +29,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -57,7 +57,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="/transaction">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Transaction</span></a>
             </li>
@@ -82,7 +82,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="/voucher">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Voucher</span></a>
             </li>
@@ -173,16 +173,12 @@
                 <div class="container-fluid">
 
                 <h1 class="h3 mb-2 text-gray-800">Product Categories</h1>
-                @if(session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                       {{ session('success') }}
-                     </div>
-                @endif
+
 
                 <div class="card shadow">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
-                        <a href="/categories" class="btn btn-secondary btn-sm"><i class="fas fa-chevron-left"></i></a> 
+                        <a href="/categories" class="btn btn-secondary btn-sm"><i class="fas fa-chevron-left"></i></a>
                         {{ isset($categories) ? 'Edit' : 'Add' }} Category
                         </h6>
                     </div>

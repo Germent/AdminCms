@@ -29,7 +29,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -57,7 +57,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="/transaction">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Transaction</span></a>
             </li>
@@ -82,7 +82,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="/voucher">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Voucher</span></a>
             </li>
@@ -175,25 +175,50 @@
                     <h1 class="h3 mb-2 text-gray-800">Product</h1>
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"> Categories List</h6>
-                                <a href="#" class="btn btn-success">Tambah Product</a>
+                                <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
+                                <a href="/product/form" class="btn btn-success">Tambah Product</a>
                         </div>
 
                         <div class="card-body">
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>    
-                                    <tr>
+                                    <tr class="text-center">
                                         <th width="100">Id</th>
+                                        <th>Name</th>
+                                        <th>Code</th>
                                         <th>Categories</th>
-                                        <th>Description</th>
+                                        <th>Price</th>
+                                        <th>Purchase Price</th>
+                                        <th>Status</th>
                                     </tr>
                                  </thead>
-                                <tr>
-                                    <td class="text-center"></td>
-                                    <td width="100"></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                 <tbody>
+                                    @if (count($products) > 0)
+                                        @foreach ($products as $product)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>{{ $product->code }}</td>
+                                                <td>{{ $product->productcategories->category }}</td>
+                                                <td>{{ number_format($product->price) }}</td>
+                                                <td>{{ number_format($product->purchase_price) }}</td>
+                                                <td>{!! ($product->status) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Non Active</span>' !!}</td>
+                                                <td width="100">
+                                                    <a href="/product/form?id={{ $product->id }}" class="btn btn-warning btn-sm btn-icon"><i class="fas fa-school"></i></a>
+                                                    <a href="/product/delete?id={{ $product->id }}" onclick="return confirm('Are you sure want to delete this product?')" class="btn btn-danger btn-sm btn-icon"><i class="fas fa-trash-alt"></i></a>
+                                                </td>
+                                                </td>
+
+                                            </tr>
+                                            
+                                        @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="8" class="text-center">No Data Found</td>
+                                        </tr>
+                                    @endif
+                                  
+                                </tbody>
                             </table>
                         </div>
                     </div>
