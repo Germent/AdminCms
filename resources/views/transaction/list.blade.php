@@ -184,30 +184,25 @@
                     <table class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr class="text-center">
-                        <th width="100">#</th>
+                        <th width="200">#</th>
                         <th>Date</th>
-                        <th>Code</th>
                         <th>Customer</th>
                         <th>Status</th>
                         <th>Total</th>
-                        <th></th>
+                        <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         @if (count($data) > 0)
                         @foreach ($data as $row)
                             <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $row->transaction_id }}</td>
                             <td>{{ \Carbon\Carbon::parse($row->created_at)->format('d/m/Y') }}</td>
-                            <td>{{ $row->code }}</td>
                             <td>{{ $row->customer_name }}</td>
-                            <td>{{ number_format($row->total) }}</td>
+                            <td>{!! ($row->status) ? '<span class="badge badge-success">Paid</span>' : '<span class="badge badge-danger">Non Active</span>' !!}</td>
+                            <td>{{ number_format($row->total_purchase) }}</td>
                             <td class="text-center" width="100">
-                                <div class="dropdown">
-                                <button class="btn btn-secondary btn-sm" type="button" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-chevron-down"></i>
-                                </button>
-                                </div>
+                                <a href="/transaction/delete?id={{ $row->id }}" onclick="return confirm('Are you sure want to delete this product?')" class="btn btn-danger btn-sm btn-icon"><i class="fas fa-trash-alt"></i></a>
                             </td>
                             </tr>
                         @endforeach

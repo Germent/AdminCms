@@ -45,7 +45,7 @@ Route::get('/voucher/delete', [VoucherController::class, 'voucherDelete']);
 Route::get('/transaction', [TransactionController::class, 'transactionList']);
 Route::get('/transaction/create', [TransactionController::class, 'transactionCreate']);
 Route::post('/transaction/create', [TransactionController::class, 'transactioncreateTrx']);
-Route::get('/transaction/form', [TransactionController::class, 'transactionForm']);
-Route::post('/transaction/form', [TransactionController::class, 'transactioncreateTrx']);
+Route::get('/transaction/delete', [TransactionController::class, 'transactionDelete']);
+Route::get('/transaction/create', [TransactionController::class, 'addVoucher']);
 
 

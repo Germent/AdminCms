@@ -55,7 +55,7 @@ class ProductController extends Controller
             else $products = new Products;
 
             if(!$products) return redirect('/product');
-
+            
             $products->name = $request->name;
             $products->code = $request->code;
             $products->product_categories_id = $request->product_categories_id;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Products;
+use App\Models\Vouchers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,8 @@ Route::get('/products/all', function (){
 Route::get('/products/{id}',function($id){
     $product = Products::where('id',$id)->first();
     return response()->json($product);
+});
+
+Route::get('/vouchers/all',function (){
+    return response()->json(Vouchers::all());
 });

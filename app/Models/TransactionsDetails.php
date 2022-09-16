@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class TransactionsDetails extends Model
 {
     use HasFactory;
+    protected $table = 'transaction_details';
 
     public function transactions(){
         return $this->belongsTo(Transactions::class, 'transactions_id', 'id');
